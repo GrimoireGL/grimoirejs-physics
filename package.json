@@ -1,7 +1,7 @@
 {
-  "name": "grimoirejs-ts-boilerplate",
+  "name": "grimoirejs-physics",
   "version": "1.0.0",
-  "description": "The boilerplate project for making plugin of grimoire.js.",
+  "description": "The physics plugin of grimoire.js.",
   "main": "index.js",
   "files": [
     "register",
@@ -18,9 +18,12 @@
   },
   "dependencies": {
     "cannon": "^0.6.2",
-    "grimoirejs": "latest"
+    "grimoirejs": "^0.14.3",
+    "grimoirejs-fundamental": "^0.12.6",
+    "grimoirejs-math": "^1.10.1"
   },
   "devDependencies": {
+    "@types/cannon": "^0.1.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",

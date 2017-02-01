@@ -1,6 +1,10 @@
 import gr from "grimoirejs";
-export default ()=>{
-  gr.register(async ()=>{
-
-  });
+import PhysicsWorld from "./PhysicsWorldComponent";
+import RigidBody from "./RigidBodyComponent";
+export default () => {
+    gr.register(async () => {
+        gr.registerComponent("PhysicsWorld", PhysicsWorld);
+        gr.registerComponent("RigidBody", RigidBody);
+        gr.overrideDeclaration("scene", ["PhysicsWorld"]);
+    });
 };
