@@ -1,7 +1,8 @@
-/// <reference path="../node_modules/@types/cannon/index.d.ts" />
+/// <reference path="./cannon.d.ts" />
 import Component from "grimoirejs/ref/Node/Component";
 import IAttributeDeclaration from "grimoirejs/ref/Node/IAttributeDeclaration";
 import Vector3 from "grimoirejs-math/ref/Vector3";
+import Quaternion from "grimoirejs-math/ref/Quaternion";
 import TransformComponent from "grimoirejs-fundamental/ref/Components/TransformComponent";
 import PhysicsWorldComponent from "./PhysicsWorldComponent";
 import Attribute from "grimoirejs/ref/Node/Attribute";
@@ -18,6 +19,10 @@ export default class RigidBodyComponent extends Component {
         velocity: {
             default: [0, 0, 0],
             converter: "Vector3"
+        },
+        shape: {
+            default: "box",
+            converter: "String"
         }
     };
     private world: CANNON.World;
@@ -25,6 +30,10 @@ export default class RigidBodyComponent extends Component {
     private transform: TransformComponent;
     private mass: number;
     private velocity: Vector3;
+    private shape: string;
+    private pos: Vector3;
+    private rot: Quaternion;
+    private sca: Vector3;
     public $awake(): void {
     }
     public $mount(): void {
@@ -32,19 +41,22 @@ export default class RigidBodyComponent extends Component {
         this.transform = this.node.getComponent("Transform") as TransformComponent;
         const PhysicsWorld = this.node.getComponentInAncestor("PhysicsWorld") as PhysicsWorldComponent;
         this.world = PhysicsWorld.World;
+        this.pos = this.transform.localPosition;
+        this.rot = this.transform.localRotation;
+        this.sca = this.transform.localScale;
+
+        let sh;
+        if (this.shape === "box") {
+            sh = new CANNON.Box(new CANNON.Vec3(this.sca.X, this.sca.Y, this.sca.Z));
+        } else if (this.shape === "sphere") {
+            sh = new CANNON.Sphere(this.transform.localScale.X);
+        }
         this.body = new CANNON.Body({
             mass: this.mass,
-            shape: new CANNON.Sphere(1)
+            shape: sh
         });
-        this.body.position.set(
-            this.transform.localPosition.X,
-            this.transform.localPosition.Y,
-            this.transform.localPosition.Z);
-        this.body.quaternion.set(
-            this.transform.localRotation.X,
-            this.transform.localRotation.Y,
-            this.transform.localRotation.Z,
-            this.transform.localRotation.W);
+        this.body.position.set(this.pos.X, this.pos.Y, this.pos.Z);
+        this.body.quaternion.set(this.rot.X, this.rot.Y, this.rot.Z, this.rot.W);
         this.body.velocity.set(
             this.velocity.X,
             this.velocity.Y,

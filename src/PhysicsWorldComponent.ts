@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/@types/cannon/index.d.ts"/>
+/// <reference path="./cannon.d.ts"/>
 import Component from "grimoirejs/ref/Node/Component";
 import IAttributeDeclaration from "grimoirejs/ref/Node/IAttributeDeclaration";
 import Vector3 from "grimoirejs-math/ref/Vector3";
