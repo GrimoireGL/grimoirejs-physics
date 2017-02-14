@@ -34,8 +34,6 @@ export default class RigidBodyComponent extends Component {
     private pos: Vector3;
     private rot: Quaternion;
     private sca: Vector3;
-    public $awake(): void {
-    }
     public $mount(): void {
         this.__bindAttributes();
         this.transform = this.node.getComponent("Transform") as TransformComponent;
@@ -74,5 +72,7 @@ export default class RigidBodyComponent extends Component {
             this.body.quaternion.y,
             this.body.quaternion.z,
             this.body.quaternion.w]);
+        this.body.position.set(this.pos.X, this.pos.Y, this.pos.Z);
+        this.body.quaternion.set(this.rot.X, this.rot.Y, this.rot.Z, this.rot.W);
     }
 }
