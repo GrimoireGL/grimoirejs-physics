@@ -64,13 +64,13 @@ export default class RigidBodyComponent extends Component {
         this.world.addBody(this.body);
         this.lastPosition = this.transform.position;
 
-        this.node.watch("position", (newValue: Vector3, oldValue: Vector3) => {
-            if (oldValue.X !== this.lastPosition.X || oldValue.Y !== this.lastPosition.Y || oldValue.Z !== this.lastPosition.Z) {
-                this.body.position.set(oldValue.X, oldValue.Y, oldValue.Z);
-                this.body.sleep()
-                this.body.wakeUp();
-            }
-        });
+        // this.node.watch("position", (newValue: Vector3, oldValue: Vector3) => {
+        //     if (oldValue.X !== this.lastPosition.X || oldValue.Y !== this.lastPosition.Y || oldValue.Z !== this.lastPosition.Z) {
+        //         this.body.position.set(oldValue.X, oldValue.Y, oldValue.Z);
+        //         this.body.sleep()
+        //         this.body.wakeUp();
+        //     }
+        // });
     }
     public $update(): void {
         this.node.setAttribute("position", [
@@ -90,5 +90,16 @@ export default class RigidBodyComponent extends Component {
     public wakeUp(): void {
         this.body.wakeUp();
     }
-
+    get isSleep(): boolean {
+        if (this.body.sleepState === 2) {
+            return true;
+        } else if (this.body.sleepState === 0) {
+            return false;
+        } else {
+            return null;
+        }
+    }
+    get Body(): CANNON.Body {
+        return this.body;
+    }
 }

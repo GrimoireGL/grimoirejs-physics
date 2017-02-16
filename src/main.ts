@@ -6,8 +6,5 @@ export default () => {
         gr.registerComponent("PhysicsWorld", PhysicsWorld);
         gr.registerComponent("RigidBody", RigidBody);
         gr.overrideDeclaration("scene", ["PhysicsWorld"]);
-        gr.registerNode("collider", ["RigidBody"], {
-            mass: 0
-        }, "object");
     });
 };
